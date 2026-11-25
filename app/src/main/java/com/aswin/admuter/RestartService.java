@@ -59,6 +59,12 @@ public class RestartService extends AccessibilityService {
         s.start();
     }
 
+    /** Fully switches the accessibility service off (so payment apps stop flagging it). */
+    static void turnOff() {
+        RestartService s = instance;
+        if (s != null) s.disableSelf();
+    }
+
     static boolean isRunning() {
         return instance != null;
     }

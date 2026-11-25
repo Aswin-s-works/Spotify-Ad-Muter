@@ -81,12 +81,14 @@ public class MainActivity extends Activity {
         root.addView(enabledSwitch);
 
         restartSwitch = new Switch(this);
-        restartSwitch.setText("Restart Spotify when an ad plays (experimental)");
+        restartSwitch.setText("Restart Spotify when an ad plays (experimental — blocks UPI apps while on)");
         restartSwitch.setTextSize(16);
         restartSwitch.setPadding(0, dp(4), 0, dp(4));
         restartSwitch.setChecked(prefs.getBoolean(AdMuterService.KEY_RESTART, false));
-        restartSwitch.setOnCheckedChangeListener((b, on) ->
-                prefs.edit().putBoolean(AdMuterService.KEY_RESTART, on).apply());
+        restartSwitch.setOnCheckedChangeListener((b, on) -> {
+            prefs.edit().putBoolean(AdMuterService.KEY_RESTART, on).apply();
+            if (!on) RestartService.turnOff(); // removes the accessibility permission completely
+        });
         root.addView(restartSwitch);
 
         restartText = new TextView(this);
@@ -168,7 +170,7 @@ public class MainActivity extends Activity {
         boolean restartOn = restartSwitch.isChecked();
         boolean a11y = RestartService.isRunning();
         restartText.setText(!restartOn
-                ? "Off — ads are only muted."
+                ? "Off — ads are only muted. Accessibility is off, so UPI/payment apps work normally."
                 : a11y ? "✔ Restart mode ready (works when the screen is on and unlocked; otherwise ads are muted)."
                        : "✘ Needs accessibility: Installed apps → Spotify Ad Muter – Restart mode → On");
         restartText.setTextColor(!restartOn ? Color.GRAY
