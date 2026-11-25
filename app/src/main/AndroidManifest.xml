@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@android:drawable/ic_lock_silent_mode"
+        android:label="Spotify Ad Muter"
+        android:theme="@android:style/Theme.Material.Light.DarkActionBar">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Runs automatically in the background once notification access is granted.
+             It watches Spotify's media session and mutes while an ad plays. -->
+        <service
+            android:name=".AdMuterService"
+            android:exported="true"
+            android:label="Spotify Ad Muter"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!-- Optional "Restart Spotify on ad" mode: taps Force stop in Settings, reopens Spotify. -->
+        <service
+            android:name=".RestartService"
+            android:exported="true"
+            android:label="Spotify Ad Muter – Restart mode"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/restart_service" />
+        </service>
+    </application>
+</manifest>

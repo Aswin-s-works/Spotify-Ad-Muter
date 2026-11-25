@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="restart_service_description">Used only by the optional \"Restart Spotify on ad\" mode: when a Spotify ad is detected, it opens Spotify\'s App info page, taps Force stop, then reopens Spotify and resumes playback. It only reads the Settings app screen and nothing else.</string>
+</resources>
